@@ -50,6 +50,8 @@ def create_app(config_class=Config):
             application.config['FRONTEND_ORIGIN'],
             'http://localhost:5173',
             'http://localhost:5174',
+            'http://127.0.0.1:5173',
+            'http://127.0.0.1:5174',
         }
         response.headers['Access-Control-Allow-Origin'] = (
             request_origin if request_origin in allowed_origins else application.config['FRONTEND_ORIGIN']
