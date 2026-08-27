@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="frontend/public/favicon.svg" alt="Digital Art Protection mark" width="88" />
+
 # Digital Art Protection
 
 ### AI-assisted provenance, watermarking, and blockchain ownership for digital artwork
@@ -15,9 +17,17 @@
 
 </div>
 
-Digital Art Protection is a full-stack platform that helps artists establish ownership, detect likely AI-generated artwork, embed imperceptible watermarks, store files through IPFS, and record verifiable ownership events on an Ethereum-compatible blockchain.
+Digital Art Protection is a full-stack provenance platform for artists and buyers. It combines AI-assisted artwork analysis, imperceptible watermarking, duplicate detection, decentralized storage, and blockchain ownership records into one practical workflow.
 
-## At A Glance
+<div align="center">
+
+| Analyze | Protect | Register | Verify |
+| :---: | :---: | :---: | :---: |
+| AI-content signal | DCT watermark | Ethereum record | Ownership check |
+
+</div>
+
+## Project Snapshot
 
 | | |
 | --- | --- |
@@ -27,13 +37,15 @@ Digital Art Protection is a full-stack platform that helps artists establish own
 | **Main workflow** | Analyze -> protect -> store -> register -> verify |
 | **Local services** | React, Flask, MongoDB, IPFS, and Ganache |
 
-## Engineering Highlights
+## What I Built
 
-- Designed a multi-service workflow connecting a React client, Flask REST API, ML inference, IPFS storage, MongoDB metadata, and an Ethereum smart contract.
-- Applied DCT watermarking and perceptual hashing to protect artwork while supporting duplicate detection and provenance checks.
-- Added separate artist and buyer flows with JWT authentication, frontend route guards, and backend role enforcement.
-- Implemented a VGG16-based image classification pipeline with dedicated training, validation, and inference modules.
-- Added automated coverage with backend API tests and Playwright browser-flow tests.
+| | |
+| --- | --- |
+| **Full-stack integration** | Connected a React client, Flask REST API, ML inference, IPFS storage, MongoDB metadata, and an Ethereum smart contract. |
+| **Digital protection** | Applied DCT watermarking and perceptual hashing for provenance checks and duplicate detection. |
+| **Authorization** | Built separate artist and buyer experiences with JWT authentication, route guards, and backend role enforcement. |
+| **ML pipeline** | Structured VGG16 training, validation, and inference as separate reproducible modules. |
+| **Quality** | Added backend API tests and Playwright browser-flow tests for the core user journey. |
 
 ## Contents
 
@@ -46,29 +58,17 @@ Digital Art Protection is a full-stack platform that helps artists establish own
 - [Testing](#testing)
 - [Security Notes](#security-notes)
 
-## Why This Project
-
-Digital artwork is easy to copy, difficult to authenticate, and increasingly difficult to distinguish from AI-generated content. This project combines machine learning, image processing, decentralized storage, and smart contracts into one end-to-end workflow for artists and buyers.
-
 ## Product Workflow
 
-```text
-Artist uploads artwork
-        |
-        v
-AI-content analysis + duplicate detection
-        |
-        v
-DCT watermark + perceptual hash
-        |
-        v
-IPFS storage + MongoDB metadata
-        |
-        v
-Ethereum ownership registration
-        |
-        v
-Buyer verifies, purchases, and downloads the original
+```mermaid
+flowchart LR
+    A[Artist uploads artwork] --> B[AI-content analysis]
+    B --> C[Duplicate detection]
+    C --> D[DCT watermark and perceptual hash]
+    D --> E[IPFS file and MongoDB metadata]
+    E --> F[Ethereum ownership record]
+    F --> G[Buyer verifies and purchases]
+    G --> H[Original download]
 ```
 
 ## Key Capabilities
@@ -86,20 +86,15 @@ Buyer verifies, purchases, and downloads the original
 
 ## Architecture
 
-```text
-React + Vite frontend
-		  |
-		  v
-Flask REST API ---- MongoDB metadata
-	  |  \
-	  |   \---- VGG16 inference
-      |
-      +--------- IPFS artwork storage
-      |
-      +--------- Web3.py ---- Ethereum / Ganache
-								  |
-								  v
-						 DigitalArt.sol
+```mermaid
+flowchart TB
+    UI[React + Vite frontend] --> API[Flask REST API]
+    API --> DB[(MongoDB metadata)]
+    API --> ML[VGG16 inference]
+    API --> IPFS[(IPFS artwork storage)]
+    API --> WEB3[Web3.py]
+    WEB3 --> CHAIN[Ethereum / Ganache]
+    CHAIN --> CONTRACT[DigitalArt.sol]
 ```
 
 ## Technology Stack
