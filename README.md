@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="frontend/public/favicon.svg" alt="Digital Art Protection mark" width="88" />
+<img src="https://raw.githubusercontent.com/AkshathaHM/Digital-Art-Protection-AI-Steganography-Blockchain/main/frontend/public/favicon.svg" alt="Digital Art Protection mark" width="88" />
 
 # Digital Art Protection
 
