@@ -1,0 +1,29 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Node and frontend build output
+node_modules/
+.vite/
+dist/
+build/
+
+# Generated blockchain output
+artifacts/
+cache/
+blockchain/deployments/*.json
+
+# Local uploads and ML data/models
+uploads/
+data/train/
+data/validation/
+*.h5
+*.keras
