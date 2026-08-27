@@ -1,8 +1,50 @@
+<div align="center">
+
 # Digital Art Protection
 
-**AI-assisted provenance, watermarking, and blockchain ownership for digital artwork.**
+### AI-assisted provenance, watermarking, and blockchain ownership for digital artwork
+
+![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB)
+![Flask](https://img.shields.io/badge/Flask-000000?logo=flask&logoColor=white)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?logo=tensorflow&logoColor=white)
+![Solidity](https://img.shields.io/badge/Solidity-363636?logo=solidity&logoColor=white)
+![IPFS](https://img.shields.io/badge/IPFS-65C2CB?logo=ipfs&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)
+
+**Protect the artwork. Prove the origin. Verify the owner.**
+
+</div>
 
 Digital Art Protection is a full-stack platform that helps artists establish ownership, detect likely AI-generated artwork, embed imperceptible watermarks, store files through IPFS, and record verifiable ownership events on an Ethereum-compatible blockchain.
+
+## At A Glance
+
+| | |
+| --- | --- |
+| **Project type** | Full-stack portfolio and research application |
+| **Primary users** | Digital artists, buyers, and administrators |
+| **Core problem** | Artwork provenance, duplication, and ownership verification |
+| **Main workflow** | Analyze -> protect -> store -> register -> verify |
+| **Local services** | React, Flask, MongoDB, IPFS, and Ganache |
+
+## Engineering Highlights
+
+- Designed a multi-service workflow connecting a React client, Flask REST API, ML inference, IPFS storage, MongoDB metadata, and an Ethereum smart contract.
+- Applied DCT watermarking and perceptual hashing to protect artwork while supporting duplicate detection and provenance checks.
+- Added separate artist and buyer flows with JWT authentication, frontend route guards, and backend role enforcement.
+- Implemented a VGG16-based image classification pipeline with dedicated training, validation, and inference modules.
+- Added automated coverage with backend API tests and Playwright browser-flow tests.
+
+## Contents
+
+- [Product Workflow](#product-workflow)
+- [Key Capabilities](#key-capabilities)
+- [Architecture](#architecture)
+- [Technology Stack](#technology-stack)
+- [Repository Structure](#repository-structure)
+- [Quick Start](#quick-start)
+- [Testing](#testing)
+- [Security Notes](#security-notes)
 
 ## Why This Project
 
@@ -12,20 +54,20 @@ Digital artwork is easy to copy, difficult to authenticate, and increasingly dif
 
 ```text
 Artist uploads artwork
-	|
-	v
+        |
+        v
 AI-content analysis + duplicate detection
-	|
-	v
+        |
+        v
 DCT watermark + perceptual hash
-	|
-	v
+        |
+        v
 IPFS storage + MongoDB metadata
-	|
-	v
+        |
+        v
 Ethereum ownership registration
-	|
-	v
+        |
+        v
 Buyer verifies, purchases, and downloads the original
 ```
 
@@ -46,18 +88,18 @@ Buyer verifies, purchases, and downloads the original
 
 ```text
 React + Vite frontend
-	  |
-	  v
+		  |
+		  v
 Flask REST API ---- MongoDB metadata
-      |  \
-      |   \---- VGG16 inference
+	  |  \
+	  |   \---- VGG16 inference
       |
       +--------- IPFS artwork storage
       |
       +--------- Web3.py ---- Ethereum / Ganache
-				  |
-				  v
-			 DigitalArt.sol
+								  |
+								  v
+						 DigitalArt.sol
 ```
 
 ## Technology Stack
@@ -74,11 +116,11 @@ Flask REST API ---- MongoDB metadata
 ## Repository Structure
 
 ```text
-backend/          Flask API, authentication, artwork and admin blueprints
-blockchain/       Solidity contract, Hardhat configuration and deployments
-frontend/         React client and Playwright end-to-end tests
-ml_model/         VGG16 training data, training script and inference service
-steganography/    Watermarking and perceptual hashing utilities
+backend/           Flask API, authentication, artwork and admin blueprints
+blockchain/        Solidity contract, Hardhat configuration and deployments
+frontend/          React client and Playwright end-to-end tests
+ml_model/          VGG16 training data, training script and inference service
+steganography/     Watermarking and perceptual hashing utilities
 docker-compose.yml Local MongoDB, Ganache and IPFS services
 ```
 
