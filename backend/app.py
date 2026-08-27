@@ -12,6 +12,7 @@ from blueprints.admin import admin_bp
 from blueprints.auth import auth_bp
 from config import Config
 from extensions import jwt, mongo
+from ml_model.inference import warm_model
 from services.blockchain_service import BlockchainService
 from services.ipfs_service import IpfsService
 
@@ -23,6 +24,11 @@ def create_app(config_class=Config):
     application = Flask(__name__)
     application.config.from_object(config_class)
     CORS(application, resources={r'/api/*': {'origins': '*'}})
+    if not application.config.get('TESTING'):
+        try:
+            warm_model(application.config['MODEL_PATH'])
+        except (FileNotFoundError, RuntimeError, OSError) as error:
+            application.logger.warning('AI detector warm-up skipped: %s', error)
     mongo.init_app(application)
     jwt.init_app(application)
     application.config['UPLOAD_DIR'].mkdir(parents=True, exist_ok=True)
