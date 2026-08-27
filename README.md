@@ -19,6 +19,14 @@
 
 Digital Art Protection is a full-stack provenance platform for artists and buyers. It combines AI-assisted artwork analysis, imperceptible watermarking, duplicate detection, decentralized storage, and blockchain ownership records into one practical workflow.
 
+## Project Demo
+
+Watch the complete project walkthrough on YouTube:
+
+[![Watch the Digital Art Protection demo](https://img.youtube.com/vi/1Urmt9fX3Uw/maxresdefault.jpg)](https://youtu.be/1Urmt9fX3Uw)
+
+**[Watch the demo on YouTube](https://youtu.be/1Urmt9fX3Uw)**
+
 <div align="center">
 
 | Analyze | Protect | Register | Verify |
