@@ -49,6 +49,7 @@ Digital Art Protection is a full-stack provenance platform for artists and buyer
 
 ## Contents
 
+- [Recruiter View](#recruiter-view)
 - [Product Workflow](#product-workflow)
 - [Key Capabilities](#key-capabilities)
 - [Architecture](#architecture)
@@ -57,6 +58,20 @@ Digital Art Protection is a full-stack provenance platform for artists and buyer
 - [Quick Start](#quick-start)
 - [Testing](#testing)
 - [Security Notes](#security-notes)
+
+## Recruiter View
+
+This project demonstrates practical full-stack engineering across several boundaries:
+
+| Capability | Evidence in the project |
+| --- | --- |
+| **Frontend engineering** | React screens, protected routes, wallet-aware purchase flow, and browser tests |
+| **Backend engineering** | Flask blueprints, JWT authentication, role authorization, file handling, and API tests |
+| **Applied machine learning** | VGG16 training workflow and inference service for artwork classification |
+| **Web3 integration** | Solidity contract deployment, Web3.py transactions, ethers.js client integration |
+| **Data and media systems** | MongoDB metadata, IPFS content storage, DCT watermarking, and perceptual hashing |
+
+The application is designed for local demonstration with Docker Compose, Ganache, IPFS, MongoDB, Flask, and Vite.
 
 ## Product Workflow
 
@@ -118,6 +133,9 @@ ml_model/          VGG16 training data, training script and inference service
 steganography/     Watermarking and perceptual hashing utilities
 docker-compose.yml Local MongoDB, Ganache and IPFS services
 ```
+
+<details>
+<summary><strong>Quick Start: run the project locally</strong></summary>
 
 ## Quick Start
 
@@ -199,6 +217,8 @@ python -m training.train --data-dir data --output vgg16_ai_detector.h5 --epochs 
 ```
 
 The generated model must be saved as `ml_model/vgg16_ai_detector.h5` before upload analysis can run.
+
+</details>
 
 ## Testing
 
