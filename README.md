@@ -1,110 +1,189 @@
-# Protecting Digital Art Through Steganography and Blockchain
+# Digital Art Protection
 
-A full-stack platform for human-created digital art verification, DCT watermarking, duplicate detection, IPFS storage, and Ethereum ownership records.
+**AI-assisted provenance, watermarking, and blockchain ownership for digital artwork.**
 
-## Repository layout
+Digital Art Protection is a full-stack platform that helps artists establish ownership, detect likely AI-generated artwork, embed imperceptible watermarks, store files through IPFS, and record verifiable ownership events on an Ethereum-compatible blockchain.
 
-- `frontend/` React client
-- `backend/` Flask API
-- `blockchain/` Solidity contracts and local-chain configuration
-- `ml_model/` VGG16 training and inference
-- `steganography/` DCT watermarking and perceptual hashing
+## Why This Project
 
-## Technology baseline
+Digital artwork is easy to copy, difficult to authenticate, and increasingly difficult to distinguish from AI-generated content. This project combines machine learning, image processing, decentralized storage, and smart contracts into one end-to-end workflow for artists and buyers.
 
-React, Flask, VGG16, DCT steganography, perceptual hashing, IPFS, Ethereum/Hardhat, MongoDB, Web3.py, and ethers.js.
+## Product Workflow
 
-## Account roles
+```text
+Artist uploads artwork
+	|
+	v
+AI-content analysis + duplicate detection
+	|
+	v
+DCT watermark + perceptual hash
+	|
+	v
+IPFS storage + MongoDB metadata
+	|
+	v
+Ethereum ownership registration
+	|
+	v
+Buyer verifies, purchases, and downloads the original
+```
 
-Registration uses separate Artist and Buyer entry points; there is no role selector inside either form. Artists can upload and manage their own work. Buyers can browse watermarked gallery images, verify ownership, purchase work, and download originals after successful purchase. The backend enforces these role boundaries in addition to the frontend route guards.
+## Key Capabilities
 
-## Local setup
+| Area | Capability |
+| --- | --- |
+| Artist experience | Role-based registration, artwork upload, ownership management |
+| AI analysis | VGG16-based classifier for AI-generated versus human-created artwork |
+| Image protection | DCT watermarking and perceptual hashing for provenance and duplicate detection |
+| Decentralized storage | IPFS-backed artwork storage with content identifiers |
+| Blockchain | Solidity registry for ownership and purchase records |
+| Buyer experience | Watermarked gallery, ownership verification, purchase flow, original download |
+| API security | Flask blueprints, JWT authentication, role-aware backend authorization |
+| Local development | Docker Compose services for MongoDB, Ganache, and IPFS |
 
-Use Python 3.12 for the backend and ML modules. TensorFlow and a trained model are required before uploads can be accepted.
+## Architecture
 
-### 1. Start MongoDB, Ganache, and IPFS
+```text
+React + Vite frontend
+	  |
+	  v
+Flask REST API ---- MongoDB metadata
+      |  \
+      |   \---- VGG16 inference
+      |
+      +--------- IPFS artwork storage
+      |
+      +--------- Web3.py ---- Ethereum / Ganache
+				  |
+				  v
+			 DigitalArt.sol
+```
 
-With Docker Desktop running, from the project root:
+## Technology Stack
+
+- **Frontend:** React, Vite, ethers.js
+- **Backend:** Python, Flask, Flask-JWT-Extended, PyMongo, Web3.py
+- **Machine learning:** TensorFlow, Keras, VGG16
+- **Image processing:** DCT watermarking, perceptual hashing
+- **Blockchain:** Solidity, Hardhat, Ganache
+- **Storage:** MongoDB and IPFS
+- **Testing:** Pytest and Playwright
+- **Environment:** Docker Compose, Python 3.12, Node.js
+
+## Repository Structure
+
+```text
+backend/          Flask API, authentication, artwork and admin blueprints
+blockchain/       Solidity contract, Hardhat configuration and deployments
+frontend/         React client and Playwright end-to-end tests
+ml_model/         VGG16 training data, training script and inference service
+steganography/    Watermarking and perceptual hashing utilities
+docker-compose.yml Local MongoDB, Ganache and IPFS services
+```
+
+## Quick Start
+
+### Prerequisites
+
+- Docker Desktop
+- Python 3.12
+- Node.js and npm
+- A local Ganache account for development transactions
+
+### 1. Start infrastructure
+
+From the project root:
 
 ```powershell
 docker compose up -d mongodb ganache ipfs
 ```
 
-Ganache stores its chain database in the named `ganache-data` volume. Keep that volume when restarting Docker; deleting it resets the chain and makes existing MongoDB artwork records point at a different blockchain state.
+Keep the `ganache-data` Docker volume between restarts. Removing it resets the local chain and can invalidate existing blockchain references stored in MongoDB.
 
-### 2. Deploy the local blockchain
-
-Open a new terminal:
+### 2. Deploy the smart contract
 
 ```powershell
-cd d:\Projects\Academic\digital-art-protection\blockchain
+cd blockchain
 npm install
 npm run deploy:ganache
 ```
 
-The persistent Ganache service provides chain ID `1337` at `http://127.0.0.1:7545`. The deployment address is written to `blockchain/deployments/ganache.json`.
+The local Ganache network uses chain ID `1337` at `http://127.0.0.1:7545`. Deployment details are written to `blockchain/deployments/ganache.json`.
 
-### 3. Configure the Flask API
-
-Open a new terminal:
+### 3. Configure and start the API
 
 ```powershell
-cd d:\Projects\Academic\digital-art-protection\backend
+cd ..\backend
 Copy-Item ..\.env.example .env
 py -3.12 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
 ```
 
-Edit `backend/.env` and set `BLOCKCHAIN_PRIVATE_KEY` to a local Ganache account key. Keep `BLOCKCHAIN_RPC_URL` at `http://127.0.0.1:7545` and set the deployed contract address.
-
-Before production deployment, replace both Flask/JWT secrets, the contract address, RPC URL, and wallet key with production values supplied by a secret manager. Do not commit `.env` files or reuse any Ganache account key.
-
-Train the model before starting uploads, following the ML instructions below. Then start Flask:
+Set the local Ganache private key and deployed contract address in `backend/.env`, then start Flask:
 
 ```powershell
 flask --app app run --debug --port 5000
 ```
 
-Check it at `http://localhost:5000/health`.
+Health check: `http://localhost:5000/health`
 
-### 4. Start React
-
-Open another terminal:
+### 4. Start the frontend
 
 ```powershell
-cd d:\Projects\Academic\digital-art-protection\frontend
+cd ..\frontend
 Copy-Item .env.example .env
 npm install
 npm run dev
 ```
 
-Open `http://localhost:5173` (or the alternate Vite port shown in the terminal).
+Open the Vite URL shown in the terminal, normally `http://localhost:5173`.
 
-### 5. Train the VGG16 detector
+### 5. Prepare the AI detector
 
-Put labeled images in `ml_model/data/train/Human`, `ml_model/data/train/AI`, `ml_model/data/validation/Human`, and `ml_model/data/validation/AI`. In a Python 3.12 environment:
+Place labeled images in the training and validation folders:
+
+```text
+ml_model/data/train/Human
+ml_model/data/train/AI
+ml_model/data/validation/Human
+ml_model/data/validation/AI
+```
+
+Install the ML dependencies and train the model:
 
 ```powershell
-cd d:\Projects\Academic\digital-art-protection\ml_model
+cd ..\ml_model
 py -3.12 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
 python -m training.train --data-dir data --output vgg16_ai_detector.h5 --epochs 10
 ```
 
-The generated file must be at `ml_model/vgg16_ai_detector.h5`, matching the backend configuration.
+The generated model must be saved as `ml_model/vgg16_ai_detector.h5` before upload analysis can run.
 
-### 6. Optional MetaMask setup
+## Testing
 
-Add a custom network with RPC `http://127.0.0.1:7545`, chain ID `1337`, and currency symbol `ETH`. Import one funded account using a key shown by Ganache. Never use these development keys outside the local chain.
+Run backend tests from `backend/`:
 
-## Planned local services
+```powershell
+pytest
+```
 
-- React: `http://localhost:5173`
-- Flask API: `http://localhost:5000`
-- MongoDB: `mongodb://localhost:27017/digital_art_protection`
-- Ganache JSON-RPC: `http://localhost:7545` (chain ID `1337`, persistent `ganache-data` volume)
-- IPFS API: `http://localhost:5001`
+Run frontend end-to-end tests from `frontend/`:
 
-See each module's README for module-specific setup instructions.
+```powershell
+npm install
+npx playwright test
+```
+
+## Security Notes
+
+- Never commit `.env` files, private keys, or production secrets.
+- Use development Ganache accounts only on the local chain.
+- Replace Flask, JWT, RPC, contract, and wallet values through a secret manager before production use.
+
+## Project Status
+
+This repository is a portfolio and research project demonstrating how AI analysis, digital watermarking, decentralized storage, and blockchain records can work together in a practical application workflow.
