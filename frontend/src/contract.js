@@ -46,6 +46,10 @@ export async function connectWallet() {
   const { default: Web3 } = await import('web3');
   const web3 = new Web3(window.ethereum);
   const accounts = await web3.eth.getAccounts();
+  const contractCode = await web3.eth.getCode(contractAddress);
+  if (contractAddress && contractCode === '0x') {
+    throw new Error(`Ganache Local is using the wrong RPC endpoint. Set MetaMask RPC URL to ${rpcUrl}, then reconnect.`);
+  }
   const balance = await web3.eth.getBalance(accounts[0]);
   if (BigInt(balance) === 0n) {
     throw new Error(`Wallet ${accounts[0]} has no Ganache ETH. Import a funded buyer account and switch MetaMask to Ganache Local (chain ID 1337).`);
